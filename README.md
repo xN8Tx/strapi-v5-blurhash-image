@@ -20,30 +20,32 @@ To use this plugin, you need to install it, after which all further added or upd
 ```json
 {
     // ... Response
-    image: "cover": {
-    "id": 1,
-    "documentId": "j3hcil6gr7oqfxau00zfcypw",
-    "name": "BLACK_II_desktop.jpg",
-    "alternativeText": null,
-    "caption": null,
-    "width": 5120,
-    "height": 2880,
-    "formats": {
-        // ... Formats
+    "image": {
+        "cover": {
+            "id": 1,
+            "documentId": "j3hcil6gr7oqfxau00zfcypw",
+            "name": "BLACK_II_desktop.jpg",
+            "alternativeText": null,
+            "caption": null,
+            "width": 5120,
+            "height": 2880,
+            "formats": {
+                // ... Formats
+            },
+            "hash": "BLACK_II_desktop_eceab96ccc",
+            "ext": ".jpg",
+            "mime": "image/jpeg",
+            "size": 1154.02,
+            "url": "/uploads/BLACK_II_desktop_eceab96ccc.jpg",
+            "previewUrl": null,
+            "provider": "local",
+            "provider_metadata": null,
+            "createdAt": "2024-11-28T07:33:04.613Z",
+            "updatedAt": "2024-11-28T07:33:04.613Z",
+            "publishedAt": "2024-11-28T07:33:04.680Z",
+            "blurHash": "D01yLPt7D%Rjt7t7ayRjofof" // BlurHash key
+        },
     },
-    "hash": "BLACK_II_desktop_eceab96ccc",
-    "ext": ".jpg",
-    "mime": "image/jpeg",
-    "size": 1154.02,
-    "url": "/uploads/BLACK_II_desktop_eceab96ccc.jpg",
-    "previewUrl": null,
-    "provider": "local",
-    "provider_metadata": null,
-    "createdAt": "2024-11-28T07:33:04.613Z",
-    "updatedAt": "2024-11-28T07:33:04.613Z",
-    "publishedAt": "2024-11-28T07:33:04.680Z",
-    "blurHash": "D01yLPt7D%Rjt7t7ayRjofof" // BlurHash key
-  },
     // ... Response
 ```
 
