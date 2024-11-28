@@ -1,0 +1,59 @@
+{
+  "version": "0.0.0",
+  "keywords": [],
+  "type": "commonjs",
+  "exports": {
+    "./package.json": "./package.json",
+    "./strapi-server": {
+      "types": "./dist/server/src/index.d.ts",
+      "source": "./server/src/index.ts",
+      "import": "./dist/server/index.mjs",
+      "require": "./dist/server/index.js",
+      "default": "./dist/server/index.js"
+    }
+  },
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "strapi-plugin build",
+    "watch": "strapi-plugin watch",
+    "watch:link": "strapi-plugin watch:link",
+    "verify": "strapi-plugin verify",
+    "test:ts:back": "run -T tsc -p server/tsconfig.json"
+  },
+  "dependencies": {
+    "axios": "^1.7.8",
+    "blurhash": "^2.0.5",
+    "sharp": "^0.33.5"
+  },
+  "devDependencies": {
+    "@strapi/sdk-plugin": "^5.2.7",
+    "@strapi/strapi": "^5.4.2",
+    "@strapi/typescript-utils": "^5.4.2",
+    "prettier": "^3.4.1",
+    "typescript": "^5.7.2"
+  },
+  "peerDependencies": {
+    "@strapi/sdk-plugin": "^5.2.7",
+    "@strapi/strapi": "^5.4.2"
+  },
+  "strapi": {
+    "kind": "plugin",
+    "name": "strapi-v5-blurhash-image",
+    "displayName": "BlurHash for Images",
+    "description": "Create a blurhash for images in strapi v5"
+  },
+  "name": "strapi-v5-blurhash-image",
+  "description": "Create a blurhash for images in strapi v5",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/xN8Tx/strapi-v5-blurhash.git"
+  },
+  "bugs": {
+    "url": "https://github.com/xN8Tx/strapi-v5-blurhash/issues"
+  },
+  "homepage": "https://github.com/xN8Tx/strapi-v5-blurhash#readme",
+  "author": "xN8Tx <theeldern8t@ya.ru>"
+}
