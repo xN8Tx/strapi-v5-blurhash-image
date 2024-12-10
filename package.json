@@ -1,5 +1,5 @@
 {
-  "version": "1.0.1",
+  "version": "1.1.0",
   "keywords": [],
   "type": "commonjs",
   "exports": {
@@ -25,12 +25,14 @@
   "dependencies": {
     "axios": "^1.7.8",
     "blurhash": "^2.0.5",
+    "pngjs": "^7.0.0",
     "sharp": "^0.33.5"
   },
   "devDependencies": {
     "@strapi/sdk-plugin": "^5.2.7",
     "@strapi/strapi": "^5.4.2",
     "@strapi/typescript-utils": "^5.4.2",
+    "@types/pngjs": "^6.0.5",
     "prettier": "^3.4.1",
     "typescript": "^5.7.2"
   },
