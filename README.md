@@ -8,13 +8,13 @@
 Install the plugin using your favorite package manager:
 
 ```sh
-npm install strapi-v5-blurhash
+npm install strapi-v5-blurhash-image
 ```
 
 or
 
 ```sh
-yarn add strapi-v5-blurhash
+yarn add strapi-v5-blurhash-image
 ```
 
 ---
@@ -71,4 +71,4 @@ await strapi.plugin('strapi-v5-blurhash-image').services.service.updateBlurHash(
 
 ## 💖 Acknowledgments
 
-This plugin is inspired by the work of [Emil Petraš](https://github.com/emil-petras) and his [BlurHash generator repository](https://github.com/emil-petras/strapi-blurhash). Thank you for paving the way!
+This plugin is inspired by the work of [Emil Petraš](https://github.com/emil-petras) and his [BlurHash generator repository](https://github.com/emil-petras/strapi-blurhash).
