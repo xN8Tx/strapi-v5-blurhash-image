@@ -1,5 +1,5 @@
 {
-  "version": "1.2.0",
+  "version": "1.2.1",
   "keywords": [],
   "type": "commonjs",
   "exports": {
@@ -51,11 +51,11 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "git+ssh://git@github.com/xN8Tx/strapi-v5-blurhash.git"
+    "url": "git+ssh://git@github.com/xN8Tx/strapi-v5-blurhash-image.git"
   },
   "bugs": {
-    "url": "https://github.com/xN8Tx/strapi-v5-blurhash/issues"
+    "url": "https://github.com/xN8Tx/strapi-v5-blurhash-image/issues"
   },
-  "homepage": "https://github.com/xN8Tx/strapi-v5-blurhash#readme",
+  "homepage": "https://github.com/xN8Tx/strapi-v5-blurhash-image#readme",
   "author": "Evgeniy Shteyn <theeldern8t@ya.ru>"
 }
