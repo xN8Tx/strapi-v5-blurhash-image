@@ -82,7 +82,35 @@ const generateBlurHashDataUrl = async (blurHash: string) => {
 };
 
 const service = () => ({
-  registerBlurHash: async (event: any) => {
+  async updateBlurHash() {
+    strapi.log.info('Start update blurHash on images');
+
+    const images = await strapi.documents('plugin::upload.file').findMany({
+      filters: {
+        mime: { $startsWith: 'image' },
+      },
+    });
+
+    const blurHashUpdate = images.map(async (image) => {
+      const blurHash = await generateBlurHash(image.url);
+      const blurHashDataUrl = await generateBlurHashDataUrl(blurHash);
+
+      await strapi.documents('plugin::upload.file').update({
+        documentId: image.documentId,
+        data: {
+          // @ts-ignore
+          blurHash: {
+            code: blurHash,
+            url: blurHashDataUrl,
+          },
+        },
+      });
+    });
+
+    await Promise.all(blurHashUpdate);
+    strapi.log.info('Update blurHash on all images');
+  },
+  async registerBlurHash(event: any) {
     const mime = event?.params?.data.mime as string;
     const url = event?.params?.data.url as string;
 

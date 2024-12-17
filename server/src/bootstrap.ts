@@ -5,8 +5,6 @@ const bootstrap = ({ strapi }: { strapi: Core.Strapi }) => {
     models: ['plugin::upload.file'],
     beforeCreate: async (event) =>
       await strapi.plugin('strapi-v5-blurhash-image').service('service').registerBlurHash(event),
-    beforeUpdate: async (event) =>
-      await strapi.plugin('strapi-v5-blurhash-image').service('service').registerBlurHash(event),
   });
 };
 

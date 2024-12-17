@@ -1,11 +1,11 @@
-<h1 align="center">Strapi v5 Blurhash Image</h1>
-<p align="center">Automatically generate a BlurHash for images in Strapi v5</p>
+<h1 align="center">✨ Strapi v5 BlurHash Plugin ✨</h1>
+<p align="center">Automatically generate stunning BlurHash placeholders for images in Strapi v5.</p>
 
 ---
 
-## 💻 Installation
+## 🚀 Installation
 
-Install the plugin using the following command:
+Install the plugin using your favorite package manager:
 
 ```sh
 npm install strapi-v5-blurhash
@@ -19,16 +19,14 @@ yarn add strapi-v5-blurhash
 
 ---
 
-## 💫 Usage
+## 🌟 Usage
 
-Once the plugin is installed, all newly added or updated images will automatically receive a `blurHash` object. This object includes two keys:
+Once installed, all newly added images will automatically include a `blurHash` object with the following keys:
 
-- `code`: The BlurHash string.
-- `url`: A Data URL representing the decoded BlurHash as a small image.
+- **`code`**: The BlurHash string.
+- **`url`**: A Data URL representing the decoded BlurHash as a small image.
 
-This feature allows you to display a visually appealing blurred placeholder for the image before it fully loads.
-
-Here’s an example of the image object with the added `blurHash`:
+This feature provides visually appealing blurred placeholders for images while they load. Here’s an example of an image object with the added `blurHash`:
 
 ```json
 {
@@ -61,14 +59,16 @@ Here’s an example of the image object with the added `blurHash`:
 }
 ```
 
----
+### 🔄 Updating Existing Photos
 
-## 🗒️ Roadmap
+To add BlurHash to already uploaded photos, execute the following command in any controller (use it once, then remove it):
 
-- [ ] Add support for generating `blurHash` keys for existing images.
+```js
+await strapi.plugin('strapi-v5-blurhash-image').services.service.updateBlurHash();
+```
 
 ---
 
 ## 💖 Acknowledgments
 
-This project is inspired by the work of [Emil Petraš](https://github.com/emil-petras) and his [repository for a BlurHash generator](https://github.com/emil-petras/strapi-blurhash).
+This plugin is inspired by the work of [Emil Petraš](https://github.com/emil-petras) and his [BlurHash generator repository](https://github.com/emil-petras/strapi-blurhash). Thank you for paving the way!
