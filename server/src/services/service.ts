@@ -114,7 +114,7 @@ const service = () => ({
     const mime = event?.params?.data.mime as string;
     const url = event?.params?.data.url as string;
 
-    if (event && mime.startsWith('image')) {
+    if (event && mime.startsWith('image') && mime !== 'image/svg+xml') {
       const blurHash = await generateBlurHash(url);
       const blurHashDataUrl = await generateBlurHashDataUrl(blurHash);
       event.params.data.blurHash = {
