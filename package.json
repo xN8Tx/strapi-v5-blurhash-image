@@ -1,6 +1,5 @@
 {
-  "version": "2.0.0",
-  "keywords": [],
+  "version": "2.0.1",
   "type": "commonjs",
   "exports": {
     "./package.json": "./package.json",
@@ -44,11 +43,18 @@
     "kind": "plugin",
     "name": "strapi-v5-image-optimizer",
     "displayName": "Image optimizer for Strapi v5",
-    "description": "Create a blurhash for images in strapi v5"
+    "description": "Convert your images to webp and create a blurhash for them!"
   },
   "name": "strapi-v5-image-optimizer",
-  "description": "Create a blurhash for images in strapi v5",
+  "description": "Convert your images to webp and create a blurhash for them!",
   "license": "MIT",
+  "keywords": [
+    "strapi",
+    "webp",
+    "image optimisation",
+    "blurHash",
+    "image placeholder"
+  ],
   "repository": {
     "type": "git",
     "url": "git+ssh://git@github.com/xN8Tx/strapi-v5-image-optimizer.git"
