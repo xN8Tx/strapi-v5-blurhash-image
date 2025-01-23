@@ -1,4 +1,4 @@
-<h1 align="center">✨ Strapi v5 BlurHash Plugin ✨</h1>
+<h1 align="center">Image optimizer for Strapi v5</h1>
 <p align="center">Automatically generate stunning BlurHash placeholders for images in Strapi v5.</p>
 
 ---
@@ -8,63 +8,117 @@
 Install the plugin using your favorite package manager:
 
 ```sh
-npm install strapi-v5-blurhash-image
+npm install strapi-v5-image-optimizer
 ```
 
 or
 
 ```sh
-yarn add strapi-v5-blurhash-image
+yarn add strapi-v5-image-optimizer
 ```
 
 ---
 
-## 🌟 Usage
+## 🚀 Features
 
-Once installed, all newly added images will automatically include a `blurHash` object with the following keys:
+### 📦 WebP conversion
 
-- **`code`**: The BlurHash string.
-- **`url`**: A Data URL representing the decoded BlurHash as a small image.
+This plugin automatically convert uploaded images to `WebP` format. To achieve this, it uses the `sharp` library, which is a powerful image processing tool. The conversion process is optimized to provide a high quality image while maintaining a small file size.
 
-This feature provides visually appealing blurred placeholders for images while they load. Here’s an example of an image object with the added `blurHash`:
+To configure the plugin, you need to add the following configuration to your `config/plugins.js` file:
 
-```json
-{
-  "image": {
-    "cover": {
-      "id": 1,
-      "documentId": "j3hcil6gr7oqfxau00zfcypw",
-      "name": "BLACK.jpg",
-      "alternativeText": null,
-      "caption": null,
-      "width": 5120,
-      "height": 2880,
-      "hash": "BLACK",
-      "ext": ".jpg",
-      "mime": "image/jpeg",
-      "size": 1154.02,
-      "url": "/uploads/BLACK.jpg",
-      "previewUrl": null,
-      "provider": "local",
-      "provider_metadata": null,
-      "createdAt": "2024-11-28T07:33:04.613Z",
-      "updatedAt": "2024-11-28T07:33:04.613Z",
-      "publishedAt": "2024-11-28T07:33:04.680Z",
-      "blurHash": {
-        "code": "LEHV6nWB2yk8pyo0adR*.7kCMdnj",
-        "url": "data:image/png;base64,..."
-      }
-    }
-  }
-}
+```ts
+export default () => ({
+  // ...
+  'strapi-v5-image-optimizer': {
+    enabled: true,
+    config: {
+      // Configurate this options(All values here is default)
+      webp: {
+        enabled: true,
+        convertMimeTypes: ['image/jpeg', 'image/png'],
+        sharpConfig: {},
+        webpConfig: {
+          lossless: true,
+        },
+      },
+    },
+  },
+  // ...
+});
 ```
 
-### 🔄 Updating Existing Photos
+If you want conver `.gif` to `.webp` you need to turn off `Size optimization` in `Settings => Media Library` in your strapi admin panel. After that in config for `webp.convertMimeTypes` add `image/gif` to another mime types which you want convert to `.webp`.
 
-To add BlurHash to already uploaded photos, execute the following command in any controller (use it once, then remove it):
+### 🌟 BlurHash Generation
 
-```js
-await strapi.plugin('strapi-v5-blurhash-image').services.service.updateBlurHash();
+This plugin automatically generate `blurHash` for uploaded images. To optimize image loading time, the plugin uses `blurhash` library. The generation process is optimized to provide a high quality image while maintaining a small file size.
+
+To configure the plugin, you need to add the following configuration to your `config/plugins.js` file:
+
+```ts
+export default () => ({
+  // ...
+  'strapi-v5-image-optimizer': {
+    enabled: true,
+    config: {
+      // Configurate this options(All values here is default)
+      blurHash: {
+        enabled: true,
+      },
+    },
+  },
+  // ...
+});
+```
+
+## 🔄 Updating BlurHash for Existing Photos
+
+To add BlurHash to already uploaded photos, execute the following command in bootstrap your app(`src/index.ts`) (use it once, then remove it):
+
+```ts
+export default {
+  async bootstrap({ strapi }: { strapi: Core.Strapi }) {
+    await strapi.plugin('strapi-v5-image-optimizer').service('blurHashService').updateBlurHash();
+  },
+};
+```
+
+## 🆕 Migrate from 'strapi-v5-blurhash-generator' version to 'strapi-v5-image-optimizer'
+
+In strapi-v5-image-optimizer, the plugin generates a 'blurHash' key with a string type, whereas in the strapi-v5-blurhash-generator it generated a JSON object. To migrate from the first version to the second, add this function to your src/index.ts and run it during the bootstrap phase of your application. Once it has been applied, you can remove it.
+
+```ts
+const migrateFromFirstVersion = async (strapi: Core.Strapi) => {
+  const files = await strapi.documents('plugin::upload.file').findMany({
+    filters: {
+      blurHash: {
+        $startsWith: '{',
+      },
+    },
+    limit: 99999,
+  });
+
+  const fileUpdates = files.map(async (file) => {
+    const documentId = file.documentId;
+
+    if (typeof file.blurHash !== 'string') {
+      return;
+    }
+
+    const blurHashObject = JSON.parse(file.blurHash);
+    const blurHash = blurHashObject['url'];
+
+    await strapi.documents('plugin::upload.file').update({
+      documentId,
+      data: {
+        blurHash,
+      },
+    });
+  });
+
+  await Promise.all(fileUpdates);
+};
 ```
 
 ---

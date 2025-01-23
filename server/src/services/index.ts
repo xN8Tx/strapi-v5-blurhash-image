@@ -1,5 +1,5 @@
-import service from './service';
+import blurHashService from './blurhash';
 
 export default {
-  service,
+  blurHashService,
 };

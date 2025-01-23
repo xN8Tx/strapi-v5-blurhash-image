@@ -1,5 +1,5 @@
 {
-  "version": "1.2.4",
+  "version": "2.0.0",
   "keywords": [],
   "type": "commonjs",
   "exports": {
@@ -42,20 +42,20 @@
   },
   "strapi": {
     "kind": "plugin",
-    "name": "strapi-v5-blurhash-image",
-    "displayName": "BlurHash for Images",
+    "name": "strapi-v5-image-optimizer",
+    "displayName": "Image optimizer for Strapi v5",
     "description": "Create a blurhash for images in strapi v5"
   },
-  "name": "strapi-v5-blurhash-image",
+  "name": "strapi-v5-image-optimizer",
   "description": "Create a blurhash for images in strapi v5",
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "git+ssh://git@github.com/xN8Tx/strapi-v5-blurhash-image.git"
+    "url": "git+ssh://git@github.com/xN8Tx/strapi-v5-image-optimizer.git"
   },
   "bugs": {
-    "url": "https://github.com/xN8Tx/strapi-v5-blurhash-image/issues"
+    "url": "https://github.com/xN8Tx/strapi-v5-image-optimizer/issues"
   },
-  "homepage": "https://github.com/xN8Tx/strapi-v5-blurhash-image#readme",
+  "homepage": "https://github.com/xN8Tx/strapi-v5-image-optimizer#readme",
   "author": "Evgeniy Shteyn <theeldern8t@ya.ru>"
 }

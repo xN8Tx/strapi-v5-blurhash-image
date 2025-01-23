@@ -4,6 +4,8 @@ import { PNG } from 'pngjs';
 import axios from 'axios';
 import sharp from 'sharp';
 
+import { PLUGIN_ID } from '../constants';
+
 const WIDTH = 32;
 const HEIGHT = 32;
 
@@ -57,13 +59,14 @@ const generateBlurHash = async (url: string) => {
     const hash = await encodeImage(image);
 
     return hash;
-  } catch (e) {
-    console.error(e);
+  } catch (error) {
+    strapi.log.error(`Plugin ${PLUGIN_ID}: Error generating blurHash`, error);
     return null;
   }
 };
 
-const generateBlurHashDataUrl = async (blurHash: string) => {
+const generateBlurHashDataUrl = (blurHash: string) => {
+  console.log('BlurHash:', blurHash);
   const pixels = decode(blurHash, WIDTH, HEIGHT); // Uint8ClampedArray
   const png = new PNG({ width: WIDTH, height: HEIGHT });
 
@@ -83,44 +86,43 @@ const generateBlurHashDataUrl = async (blurHash: string) => {
 
 const service = () => ({
   async updateBlurHash() {
-    strapi.log.info('Start update blurHash on images');
+    strapi.log.info(
+      'Plugin "strapi-v5-blurhash-image": Start update blurHash on images without blurHash'
+    );
 
     const images = await strapi.documents('plugin::upload.file').findMany({
       filters: {
         mime: { $startsWith: 'image' },
+        blurHash: { $null: true },
       },
     });
 
     const blurHashUpdate = images.map(async (image) => {
       const blurHash = await generateBlurHash(image.url);
-      const blurHashDataUrl = await generateBlurHashDataUrl(blurHash);
+      const blurHashDataUrl = generateBlurHashDataUrl(blurHash);
 
       await strapi.documents('plugin::upload.file').update({
         documentId: image.documentId,
         data: {
           // @ts-ignore
-          blurHash: {
-            code: blurHash,
-            url: blurHashDataUrl,
-          },
+          blurHash: blurHashDataUrl,
         },
       });
     });
 
     await Promise.all(blurHashUpdate);
-    strapi.log.info('Update blurHash on all images');
+    strapi.log.info(
+      'Plugin "strapi-v5-blurhash-image": Successfully updated blurHash on images without blurHash'
+    );
   },
   async registerBlurHash(event: any) {
     const mime = event?.params?.data.mime as string;
     const url = event?.params?.data.url as string;
 
-    if (event && mime.startsWith('image') && mime !== 'image/svg+xml') {
+    if (event && mime.startsWith('image')) {
       const blurHash = await generateBlurHash(url);
-      const blurHashDataUrl = await generateBlurHashDataUrl(blurHash);
-      event.params.data.blurHash = {
-        code: blurHash,
-        url: blurHashDataUrl,
-      };
+      const blurHashDataUrl = generateBlurHashDataUrl(blurHash);
+      event.params.data.blurHash = blurHashDataUrl;
     }
   },
 });

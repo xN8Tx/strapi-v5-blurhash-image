@@ -2,6 +2,8 @@
  * Application methods
  */
 import bootstrap from './bootstrap';
+import config from './config';
+import middlewares from './middlewares';
 import register from './register';
 
 /**
@@ -10,7 +12,9 @@ import register from './register';
 import services from './services';
 
 export default {
+  middlewares,
   register,
   bootstrap,
   services,
+  config,
 };
