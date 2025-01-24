@@ -21,36 +21,41 @@ const loadImage = async (url: string) => {
 };
 
 const encodeImage = async (buffer: Buffer): Promise<string> => {
-  const image = sharp(buffer);
-  const { width, height } = await image.metadata();
+  try {
+    const image = sharp(buffer).png();
+    const { width, height } = await image.metadata();
 
-  let w = WIDTH;
-  let h = HEIGHT;
+    let w = WIDTH;
+    let h = HEIGHT;
 
-  if (width > height) {
-    w = Math.round((w * width) / height);
-  } else {
-    h = Math.round((h * height) / width);
+    if (width > height) {
+      w = Math.round((w * width) / height);
+    } else {
+      h = Math.round((h * height) / width);
+    }
+
+    const { data, info } = await image
+      .raw()
+      .ensureAlpha()
+      .resize(w, h, { fit: 'fill' })
+      .toBuffer({ resolveWithObject: true });
+
+    let kernw = 3;
+    let kernh = 2;
+
+    if (info.width > info.height) {
+      kernw = Math.round((kernw * info.width) / info.height);
+    } else {
+      kernh = Math.round((kernh * info.height) / info.width);
+    }
+
+    const buf = new Uint8ClampedArray(data);
+
+    return encode(buf, info.width, info.height, kernw, kernh);
+  } catch (error) {
+    strapi.log.error(`Plugin ${PLUGIN_ID}: Error generating blurHash`, error);
+    return null;
   }
-
-  const { data, info } = await image
-    .raw()
-    .ensureAlpha()
-    .resize(w, h, { fit: 'fill' })
-    .toBuffer({ resolveWithObject: true });
-
-  let kernw = 3;
-  let kernh = 2;
-
-  if (info.width > info.height) {
-    kernw = Math.round((kernw * info.width) / info.height);
-  } else {
-    kernh = Math.round((kernh * info.height) / info.width);
-  }
-
-  const buf = new Uint8ClampedArray(data);
-
-  return encode(buf, info.width, info.height, kernw, kernh);
 };
 
 const generateBlurHash = async (url: string) => {
@@ -66,7 +71,10 @@ const generateBlurHash = async (url: string) => {
 };
 
 const generateBlurHashDataUrl = (blurHash: string) => {
-  console.log('BlurHash:', blurHash);
+  if (!blurHash) {
+    return null;
+  }
+
   const pixels = decode(blurHash, WIDTH, HEIGHT); // Uint8ClampedArray
   const png = new PNG({ width: WIDTH, height: HEIGHT });
 
@@ -120,9 +128,13 @@ const service = () => ({
     const url = event?.params?.data.url as string;
 
     if (event && mime.startsWith('image')) {
-      const blurHash = await generateBlurHash(url);
-      const blurHashDataUrl = generateBlurHashDataUrl(blurHash);
-      event.params.data.blurHash = blurHashDataUrl;
+      try {
+        const blurHash = await generateBlurHash(url);
+        const blurHashDataUrl = generateBlurHashDataUrl(blurHash);
+        event.params.data.blurHash = blurHashDataUrl;
+      } catch (error) {
+        event.params.data.blurHash = null;
+      }
     }
   },
 });
