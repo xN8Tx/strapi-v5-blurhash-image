@@ -86,7 +86,7 @@ export default {
 
 ## 🆕 Migrate from 'strapi-v5-blurhash-generator' version to 'strapi-v5-image-optimizer'
 
-In strapi-v5-image-optimizer, the plugin generates a 'blurHash' key with a string type, whereas in the strapi-v5-blurhash-generator it generated a JSON object. To migrate from the first version to the second, add this function to your src/index.ts and run it during the bootstrap phase of your application. Once it has been applied, you can remove it.
+In strapi-v5-image-optimizer, the plugin generates a 'blurHash' key with a text type, whereas in the strapi-v5-blurhash-generator it generated a JSON object. To migrate from the first version to the second, add this function to your src/index.ts and run it during the bootstrap phase of your application. Once it has been applied, you can remove it.
 
 ```ts
 const migrateFromFirstVersion = async (strapi: Core.Strapi) => {
