@@ -5,7 +5,7 @@ import { PLUGIN_ID } from './constants';
 const bootstrap = ({ strapi }: { strapi: Core.Strapi }) => {
   // Config
   const isWebpEnabled = strapi.plugin(PLUGIN_ID).config('webp.enabled');
-  const isBlurHashEnabled = strapi.plugin(PLUGIN_ID).config('webp.enabled');
+  const isBlurHashEnabled = strapi.plugin(PLUGIN_ID).config('blurHash.enabled');
 
   // Add webp converter middleware
   if (isWebpEnabled) {
